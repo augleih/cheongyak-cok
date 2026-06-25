@@ -1,0 +1,100 @@
+{
+  "mcpProtocol": {
+    "minVersion": "2025-03-26",
+    "maxVersion": "2025-11-25",
+    "transport": "streamable-http",
+    "statelessRecommended": true
+  },
+  "server": {
+    "forbiddenNameSubstring": "kakao",
+    "forbiddenNameSubstringCaseInsensitive": true,
+    "publicUrlRequired": true
+  },
+  "tools": {
+    "maxCount": 20,
+    "recommendedMinCount": 3,
+    "recommendedMaxCount": 10,
+    "namePattern": "^[A-Za-z0-9_-]{1,128}$",
+    "forbiddenNameSubstring": "kakao",
+    "forbiddenNameSubstringCaseInsensitive": true,
+    "descriptionMaxLength": 1024,
+    "descriptionMustInclude": [
+      "CheongyakCok",
+      "청약콕"
+    ],
+    "requiredProperties": [
+      "name",
+      "description",
+      "inputSchema",
+      "annotations"
+    ],
+    "requiredAnnotations": [
+      "title",
+      "readOnlyHint",
+      "destructiveHint",
+      "openWorldHint",
+      "idempotentHint"
+    ],
+    "publicToolAllowList": [
+      "search_notices",
+      "get_notice_detail",
+      "evaluate_eligibility",
+      "recommend_notices",
+      "get_missing_profile_fields",
+      "generate_preparation_checklist"
+    ],
+    "publicToolDenyList": [
+      "refresh_notice_cache",
+      "crawl_notices",
+      "parse_notice_document",
+      "extract_criteria_with_llm"
+    ]
+  },
+  "performance": {
+    "averageResponseMsTarget": 100,
+    "p99ResponseMsMax": 3000,
+    "forbiddenInPublicToolCall": [
+      "live_crawling",
+      "remote_notice_site_fetch",
+      "pdf_parsing",
+      "hwp_parsing",
+      "hwpx_parsing",
+      "xlsx_parsing",
+      "llm_extraction",
+      "bulk_reindexing"
+    ]
+  },
+  "privacy": {
+    "oauthInV0": false,
+    "persistUserProfileInV0": false,
+    "forbiddenStoredUserDataInV0": [
+      "resident_registration_number",
+      "login_credentials",
+      "certificate_credentials",
+      "bank_account",
+      "exact_income_amount",
+      "exact_asset_amount"
+    ]
+  },
+  "responsePolicy": {
+    "minimalResult": true,
+    "noRawApiResponse": true,
+    "noRawStackTrace": true,
+    "eligibilityStatuses": [
+      "eligible",
+      "maybe",
+      "not_eligible",
+      "unknown"
+    ],
+    "requiredEligibilityFields": [
+      "status",
+      "reason",
+      "evidence",
+      "needsConfirmation"
+    ],
+    "requiredUserFacingCautions": [
+      "현재 입력된 조건 기준",
+      "최종 신청 전 공고문 원문 확인 필요"
+    ]
+  }
+}
