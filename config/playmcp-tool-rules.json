@@ -10,6 +10,19 @@
     "forbiddenNameSubstringCaseInsensitive": true,
     "publicUrlRequired": true
   },
+  "contest": {
+    "name": "Agentic Player 10",
+    "deploymentService": "PlayMCP in KC",
+    "mcpServerIssueStartDate": "2026-06-15",
+    "mcpServerIssueEndDate": "2026-07-14",
+    "issuedEndpointUrlRequiredForPlayMcpRegistration": true,
+    "playMcpMembershipRequired": true,
+    "maxMcpServersPerAccount": 2,
+    "freeSupportIsTemporary": true,
+    "mustHavePostContestMigrationPlan": true,
+    "mayBeReclaimedIfNotUsedForContestOrNotSubmitted": true,
+    "developmentIssueSupportProvided": false
+  },
   "tools": {
     "maxCount": 20,
     "recommendedMinCount": 3,

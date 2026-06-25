@@ -28,6 +28,10 @@
 
 - Transport는 Streamable HTTP를 사용한다.
 - MCP protocol version은 `2025-03-26`부터 `2025-11-25` 범위 안에 둔다.
+- Agentic Player 10 제출용 MCP 서버는 예선 기간 안에 PlayMCP in KC에서 발급받은 Endpoint URL로 PlayMCP에 등록한다.
+- PlayMCP in KC 서버 발급 가능 기간은 2026년 6월 15일부터 2026년 7월 14일까지다.
+- 계정당 등록 가능한 MCP 서버는 2대다.
+- PlayMCP in KC 무상 지원은 한시적이므로 상용화 이전 계획을 항상 열어둔다.
 - server name과 tool name에는 `kakao` 문자열을 포함하지 않는다.
 - public tool 개수는 3-10개를 목표로 하고 최대 20개를 넘지 않는다.
 - tool name은 영문자, 숫자, `_`, `-`만 사용한다.
