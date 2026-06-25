@@ -2,6 +2,12 @@
 
 이 문서는 사람이 빠르게 확인하는 요약이다. 자동 검증 가능한 기준은 [config/playmcp-tool-rules.json](../config/playmcp-tool-rules.json)을 source of truth로 둔다.
 
+Tool 정의 검증은 다음 명령으로 실행한다.
+
+```bash
+node scripts/validate-playmcp-tools.mjs <tool-definitions.json>
+```
+
 ## Server And Contest
 
 - MCP 서버는 공개 접근 가능한 원격 URL 또는 도메인을 가져야 한다.
@@ -51,7 +57,9 @@
 
 ## CheongyakCok Rules
 
-- 공식 출처를 우선한다: 마이홈, 청약홈, LH, 확인 가능한 SH/GH/지방공사 공식 출처.
+- V0 primary source는 마이홈이다.
+- V0는 마이홈에 등재된 공공임대/공공분양 입주자 모집공고만 다룬다.
+- 청약홈, LH 직접 API, SH/GH/지방공사 직접 출처는 future source adapter로 둔다.
 - 공고의 원천 진실은 공식 공고문과 원문 파일이다.
 - LLM은 조건 후보 추출과 설명 생성을 돕지만 source of truth가 아니다.
 - 최종 eligibility result는 구조화된 조건과 rule engine으로 계산한다.

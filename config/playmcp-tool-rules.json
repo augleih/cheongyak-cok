@@ -23,6 +23,21 @@
     "mayBeReclaimedIfNotUsedForContestOrNotSubmitted": true,
     "developmentIssueSupportProvided": false
   },
+  "sourceScope": {
+    "v0PrimarySource": "myhome",
+    "v0NoticeCoverage": [
+      "myhome_listed_public_rental",
+      "myhome_listed_public_sale"
+    ],
+    "futureSourceAdapters": [
+      "cheongyak_home",
+      "lh_direct",
+      "sh_direct",
+      "gh_direct",
+      "local_public_housing_corporations"
+    ],
+    "publicToolsReadNormalizedCacheOnly": true
+  },
   "tools": {
     "maxCount": 20,
     "recommendedMinCount": 3,
