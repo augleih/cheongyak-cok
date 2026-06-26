@@ -1,0 +1,36 @@
+{
+  "response": {
+    "header": {
+      "resultCode": "00",
+      "resultMsg": "NORMAL SERVICE"
+    },
+    "body": {
+      "totalCount": "426",
+      "numOfRows": "1",
+      "pageNo": "1",
+      "item": [
+        {
+          "pblancId": "20623",
+          "houseSn": 1,
+          "sttusNm": "일반공고",
+          "pblancNm": "세종서창, 해밀행복주택 예비입주자 모집공고문(2026.06.25)",
+          "suplyInsttNm": "LH",
+          "houseTyNm": "아파트",
+          "suplyTyNm": "행복주택",
+          "rcritPblancDe": "20260625",
+          "przwnerPresnatnDe": "20261012",
+          "refrnc": "LH 콜센터 : 1600-1004 (평일 : 09:00 ~ 18:00)",
+          "url": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300020207&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=10&mi=1026",
+          "pcUrl": "https://www.myhome.go.kr/hws/portal/sch/selectRsdtRcritNtcDetailView.do?pblancId=20623&houseSn=1",
+          "mobileUrl": "https://m.myhome.go.kr/hws/portal/sch/selectRsdtRcritNtcDetailView.do?pblancId=20623&houseSn=1",
+          "hsmpNm": "세종서창",
+          "brtcNm": "세종특별자치시",
+          "signguNm": "",
+          "fullAdres": "세종특별자치시  조치원읍 조치원중고길 7 ",
+          "beginDe": "20260707",
+          "endDe": "20260709"
+        }
+      ]
+    }
+  }
+}

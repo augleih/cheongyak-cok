@@ -1,0 +1,32 @@
+{
+  "response": {
+    "header": {
+      "resultCode": "00",
+      "resultMsg": "NORMAL SERVICE."
+    },
+    "body": {
+      "pageNo": 1,
+      "numOfRows": 10,
+      "totalCount": 1,
+      "items": {
+        "item": {
+          "pblancId": "1423",
+          "pblancNm": "창원시 매입임대 잔여주택 일반매각 선착순 동호지정 공고",
+          "suplyInsttNm": "한국토지주택공사",
+          "brtcCode": "48",
+          "brtcCodeNm": "경상남도",
+          "signguCode": "170",
+          "signguCodeNm": "창원시",
+          "houseTy": "11",
+          "houseTyNm": "아파트",
+          "rcritPblancDe": "20260610",
+          "przwnerPresnatnDe": "20261231",
+          "prgrStts": "모집중",
+          "url": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do",
+          "atchFileId": "19eb0b4d04093",
+          "orginlFileNm": "일반매각공고문.pdf"
+        }
+      }
+    }
+  }
+}

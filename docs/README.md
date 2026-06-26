@@ -6,6 +6,7 @@
 | --- | --- | --- |
 | [AGENTS.md](../AGENTS.md) | 에이전트와 개발자가 매 작업 전에 지킬 최소 운영 규칙 | 작업 시작, 리뷰, Definition of Done 확인 |
 | [docs/project-scope.md](project-scope.md) | 제품 목표, V0 마이홈 범위, source adapter 경계 | 범위 판단, 데이터 모델 설계 |
+| [docs/canonical-schema-v0.md](canonical-schema-v0.md) | 공고, 공급단위, 일정, 자격 track, evidence 저장 구조 | normalizer, storage, extractor 설계 |
 | [docs/playmcp-constraints.md](playmcp-constraints.md) | PlayMCP 제약의 사람이 읽는 체크리스트 | tool 설계, 배포 준비, 심사 전 점검 |
 | [config/playmcp-tool-rules.json](../config/playmcp-tool-rules.json) | tool 정의 자동 검증 기준 | validator, test, CI 작성 |
 | [docs/adr/0001-playmcp-compliance.md](adr/0001-playmcp-compliance.md) | 빠른 MCP tool과 느린 background pipeline을 분리한 결정 | 구조 변경, tool handler 구현 |
@@ -18,6 +19,7 @@
 - 반복되는 세부 수치는 `config/playmcp-tool-rules.json`에 둔다.
 - 사람이 빠르게 읽어야 하는 제약은 `docs/playmcp-constraints.md`에 둔다.
 - 제품 범위와 source scope는 `docs/project-scope.md`에 둔다.
+- canonical data shape와 ID 전략은 `docs/canonical-schema-v0.md`에 둔다.
 - 판정 정책은 `docs/eligibility-policy.md`에 둔다.
 - 사용자-facing 문구는 `docs/user-language-policy.md`에 둔다.
 - “왜 이렇게 만들었는가”는 ADR에 둔다.

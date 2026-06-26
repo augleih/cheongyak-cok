@@ -1,0 +1,39 @@
+{
+  "response": {
+    "header": {
+      "resultCode": "00",
+      "resultMsg": "NORMAL SERVICE."
+    },
+    "body": {
+      "pageNo": 1,
+      "numOfRows": 10,
+      "totalCount": 1,
+      "items": {
+        "item": [
+          {
+            "pblancId": "20622",
+            "pblancNm": "[경남지역본부]26년 2차 신혼·신생아매입임대Ⅱ(전세형) 예비입주자 모집공고",
+            "suplyInsttNm": "한국토지주택공사",
+            "brtcCode": "48",
+            "brtcCodeNm": "경상남도",
+            "signguCode": "170",
+            "signguCodeNm": "창원시",
+            "houseTy": "16",
+            "houseTyNm": "다가구주택",
+            "suplyTy": "08",
+            "suplyTyNm": "전세임대",
+            "lfstsTyAt": "Y",
+            "bassMtRntchrgSe": "01",
+            "bassMtRntchrgSeNm": "5만원 미만",
+            "rcritPblancDe": "20260625",
+            "przwnerPresnatnDe": "20261008",
+            "prgrStts": "모집중",
+            "url": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do",
+            "atchFileId": "19efd6bdb3257",
+            "orginlFileNm": "입주자모집공고문.pdf"
+          }
+        ]
+      }
+    }
+  }
+}

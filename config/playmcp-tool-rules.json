@@ -25,6 +25,13 @@
   },
   "sourceScope": {
     "v0PrimarySource": "myhome",
+    "v0PrimarySourceContract": "data_go_kr_openapi",
+    "v0PrimarySourceEndpoint": "https://apis.data.go.kr/1613000/HWSPR02",
+    "v0PrimarySourceOperations": {
+      "publicRental": "/rsdtRcritNtcList",
+      "publicSale": "/ltRsdtRcritNtcList"
+    },
+    "v0PrimarySourceRequiresEnv": "MYHOME_SERVICE_KEY",
     "v0NoticeCoverage": [
       "myhome_listed_public_rental",
       "myhome_listed_public_sale"

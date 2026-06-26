@@ -57,8 +57,11 @@ node scripts/validate-playmcp-tools.mjs <tool-definitions.json>
 
 ## CheongyakCok Rules
 
-- V0 primary source는 마이홈이다.
+- V0 primary source는 공공데이터포털의 `국토교통부_마이홈포털 공공주택 모집공고 조회 서비스`다.
+- background collector는 `.env`의 `MYHOME_SERVICE_KEY`로 공식 endpoint `https://apis.data.go.kr/1613000/HWSPR02`를 호출한다.
+- V0 상세 기능은 공공임대 `/rsdtRcritNtcList`와 공공분양 `/ltRsdtRcritNtcList`다.
 - V0는 마이홈에 등재된 공공임대/공공분양 입주자 모집공고만 다룬다.
+- 마이홈 웹 내부 endpoint는 primary source가 아니라 reference로만 사용한다.
 - 청약홈, LH 직접 API, SH/GH/지방공사 직접 출처는 future source adapter로 둔다.
 - 공고의 원천 진실은 공식 공고문과 원문 파일이다.
 - LLM은 조건 후보 추출과 설명 생성을 돕지만 source of truth가 아니다.
