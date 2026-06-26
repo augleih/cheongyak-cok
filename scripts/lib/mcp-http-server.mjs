@@ -1,6 +1,10 @@
 import { createServer } from "node:http";
 
 import {
+  evaluateEligibilityToolDefinition,
+  handleEvaluateEligibilityTool,
+} from "./evaluate-eligibility-tool.mjs";
+import {
   getNoticeDetailToolDefinition,
   handleGetNoticeDetailTool,
 } from "./get-notice-detail-tool.mjs";
@@ -24,6 +28,16 @@ const JSON_RPC_ERRORS = {
   INVALID_PARAMS: -32602,
   INTERNAL_ERROR: -32603,
 };
+const TOOL_DEFINITIONS = [
+  searchNoticesToolDefinition,
+  getNoticeDetailToolDefinition,
+  evaluateEligibilityToolDefinition,
+];
+const TOOL_HANDLERS = new Map([
+  ["search_notices", handleSearchNoticesTool],
+  ["get_notice_detail", handleGetNoticeDetailTool],
+  ["evaluate_eligibility", handleEvaluateEligibilityTool],
+]);
 
 export function createMcpHttpServer(options = {}) {
   return createServer(createMcpRequestHandler(options));
@@ -145,7 +159,7 @@ export async function handleJsonRpcMessage(message, {
       return jsonRpcResult(message.id, {});
     case "tools/list":
       return jsonRpcResult(message.id, {
-        tools: [searchNoticesToolDefinition, getNoticeDetailToolDefinition],
+        tools: TOOL_DEFINITIONS,
       });
     case "tools/call":
       return handleToolCall(message, { cachePath, readCache });
@@ -169,8 +183,9 @@ function handleJsonRpcNotification(message) {
 async function handleToolCall(message, { cachePath, readCache } = {}) {
   const params = message.params ?? {};
   const name = params.name;
+  const handler = TOOL_HANDLERS.get(name);
 
-  if (!["search_notices", "get_notice_detail"].includes(name)) {
+  if (!handler) {
     return jsonRpcError(
       message.id,
       JSON_RPC_ERRORS.INVALID_PARAMS,
@@ -179,16 +194,10 @@ async function handleToolCall(message, { cachePath, readCache } = {}) {
   }
 
   try {
-    const result =
-      name === "search_notices"
-        ? await handleSearchNoticesTool(params.arguments ?? {}, {
-            cachePath,
-            readCache,
-          })
-        : await handleGetNoticeDetailTool(params.arguments ?? {}, {
-            cachePath,
-            readCache,
-          });
+    const result = await handler(params.arguments ?? {}, {
+      cachePath,
+      readCache,
+    });
 
     return jsonRpcResult(message.id, {
       ...result,

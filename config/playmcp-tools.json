@@ -75,6 +75,32 @@
         "openWorldHint": false,
         "idempotentHint": true
       }
+    },
+    {
+      "name": "evaluate_eligibility",
+      "description": "Evaluate basic eligibility status for a cached MyHome-listed public housing notice for CheongyakCok(청약콕). V0 uses only pre-collected cache and returns cautious unknown/maybe-style results when detailed criteria are not structured.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["noticeId"],
+        "properties": {
+          "noticeId": {
+            "type": "string",
+            "description": "Canonical notice id returned by search_notices."
+          },
+          "profile": {
+            "type": "object",
+            "description": "Optional user condition fields used only for this immediate evaluation. Values are not persisted."
+          }
+        }
+      },
+      "annotations": {
+        "title": "Evaluate eligibility",
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "openWorldHint": false,
+        "idempotentHint": true
+      }
     }
   ]
 }

@@ -64,7 +64,7 @@ test("serves initialize, initialized notification, and tools/list over Streamabl
     assert.equal(list.status, 200);
     assert.deepEqual(
       list.body.result.tools.map((tool) => tool.name),
-      ["search_notices", "get_notice_detail"],
+      ["search_notices", "get_notice_detail", "evaluate_eligibility"],
     );
     assert.equal(
       list.body.result.tools[0].description.includes("CheongyakCok"),
@@ -150,6 +150,48 @@ test("calls get_notice_detail through tools/call without exposing raw cache fiel
         "myhome:public_rental:happy-seoul:1",
       );
       assert.equal(JSON.stringify(call.body.result).includes("secret raw payload"), false);
+    });
+  } finally {
+    rmSync(tempDir, { recursive: true, force: true });
+  }
+});
+
+test("calls evaluate_eligibility through tools/call without exposing raw cache or profile values", async () => {
+  const tempDir = mkdtempSync(join(tmpdir(), "mcp-http-server-"));
+  const cachePath = join(tempDir, "myhome-notices.json");
+
+  try {
+    writeFileSync(cachePath, JSON.stringify(sampleCache()), "utf8");
+    const server = createMcpHttpServer({ cachePath });
+
+    await withListeningServer(server, async (baseUrl) => {
+      const call = await postMcp(baseUrl, {
+        jsonrpc: "2.0",
+        id: "eligibility-1",
+        method: "tools/call",
+        params: {
+          name: "evaluate_eligibility",
+          arguments: {
+            noticeId: "myhome:public_rental:happy-seoul:1",
+            profile: {
+              income: {
+                monthlyAverage: 1000000,
+              },
+            },
+          },
+        },
+      });
+
+      assert.equal(call.status, 200);
+      assert.equal(call.body.id, "eligibility-1");
+      assert.equal(call.body.result.isError, false);
+      assert.equal(call.body.result.structuredContent.found, true);
+      assert.equal(call.body.result.structuredContent.eligibility.status, "unknown");
+      assert.deepEqual(call.body.result.structuredContent.profileFieldsProvided, [
+        "income.monthlyAverage",
+      ]);
+      assert.equal(JSON.stringify(call.body.result).includes("secret raw payload"), false);
+      assert.equal(JSON.stringify(call.body.result).includes("1000000"), false);
     });
   } finally {
     rmSync(tempDir, { recursive: true, force: true });
