@@ -28,6 +28,16 @@ node scripts/check-playmcp-ready.mjs
 
 The readiness check validates the public tool definitions and runs the local MCP smoke flow.
 
+## Cache Health Check
+
+After running the background MyHome sync, check the cache before pointing the MCP server at it:
+
+```bash
+node scripts/check-myhome-cache.mjs --cachePath data/cache/myhome-notices.json
+```
+
+The cache health check verifies freshness, source metadata, notice type coverage, canonical notice identity fields, date formats, and absence of raw source payload fields. Use `--maxAgeDays 7` to adjust the freshness threshold.
+
 ## Smoke Script
 
 Run the local smoke script before Inspector or PlayMCP checks:
