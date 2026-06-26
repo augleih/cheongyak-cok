@@ -63,3 +63,10 @@ node scripts/sync-myhome-notice-cache.mjs --pageSize 1 --maxPages 1
 - sync 출력은 `data/raw/myhome/<runId>/`와 `data/cache/myhome-notices.json`에 저장된다.
 - `data/`는 git에 커밋하지 않는다.
 - public MCP tool은 이 결과가 저장된 cache/DB를 읽는 구조로 이어진다.
+
+cache 검색 smoke는 다음처럼 실행한다.
+
+```bash
+node scripts/search-notices.mjs --cachePath data/cache/myhome-notices.json --keyword 행복주택 --limit 5
+node scripts/search-notices.mjs --cachePath data/cache/myhome-notices.json --sidoName 서울특별시 --noticeType public_rental
+```
