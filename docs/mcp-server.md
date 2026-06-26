@@ -18,6 +18,16 @@ The process prints one JSON startup line:
 
 Use port `0` to let the operating system choose an available local port.
 
+## Readiness Check
+
+Run the bundled readiness check before PlayMCP submission or manual Inspector checks:
+
+```bash
+node scripts/check-playmcp-ready.mjs
+```
+
+The readiness check validates the public tool definitions and runs the local MCP smoke flow.
+
 ## Smoke Script
 
 Run the local smoke script before Inspector or PlayMCP checks:
