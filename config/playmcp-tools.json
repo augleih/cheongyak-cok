@@ -1,0 +1,58 @@
+{
+  "serverName": "cheongyak-cok",
+  "tools": [
+    {
+      "name": "search_notices",
+      "description": "Search cached MyHome-listed public housing notices for CheongyakCok(청약콕). Uses only the pre-collected normalized cache and returns cautious, compact notice summaries.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "keyword": {
+            "type": "string",
+            "description": "Keyword to match against title, provider, region, category, or source status text."
+          },
+          "noticeType": {
+            "type": "string",
+            "enum": ["public_rental", "public_sale"],
+            "description": "MyHome notice source type."
+          },
+          "sidoName": {
+            "type": "string",
+            "description": "Sido-level region name to match."
+          },
+          "sigunguName": {
+            "type": "string",
+            "description": "Sigungu-level region name to match."
+          },
+          "houseTypeName": {
+            "type": "string",
+            "description": "House type name to match."
+          },
+          "supplyTypeName": {
+            "type": "string",
+            "description": "Supply type name to match."
+          },
+          "applicationOpenOn": {
+            "type": "string",
+            "format": "date",
+            "description": "Return notices accepting applications on this date, formatted as YYYY-MM-DD."
+          },
+          "limit": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 20,
+            "description": "Maximum number of notice summaries to return."
+          }
+        }
+      },
+      "annotations": {
+        "title": "Search notices",
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "openWorldHint": false,
+        "idempotentHint": true
+      }
+    }
+  ]
+}
