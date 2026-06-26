@@ -18,6 +18,16 @@ The process prints one JSON startup line:
 
 Use port `0` to let the operating system choose an available local port.
 
+## Smoke Script
+
+Run the local smoke script before Inspector or PlayMCP checks:
+
+```bash
+node scripts/smoke-mcp-server.mjs
+```
+
+The script starts the MCP server on an ephemeral local port with a temporary normalized cache, then verifies `initialize`, `notifications/initialized`, `tools/list`, `search_notices`, `get_notice_detail`, and `evaluate_eligibility`.
+
 ## Smoke Requests
 
 Initialize:
