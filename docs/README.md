@@ -9,6 +9,7 @@
 | [docs/canonical-schema-v0.md](canonical-schema-v0.md) | 공고, 공급단위, 일정, 자격 track, evidence 저장 구조 | normalizer, storage, extractor 설계 |
 | [docs/playmcp-constraints.md](playmcp-constraints.md) | PlayMCP 제약의 사람이 읽는 체크리스트 | tool 설계, 배포 준비, 심사 전 점검 |
 | [config/playmcp-tool-rules.json](../config/playmcp-tool-rules.json) | tool 정의 자동 검증 기준 | validator, test, CI 작성 |
+| [docs/mcp-server.md](mcp-server.md) | Streamable HTTP MCP 서버 실행과 smoke 요청 | 로컬 서버 실행, Inspector 전 수동 점검 |
 | [docs/adr/0001-playmcp-compliance.md](adr/0001-playmcp-compliance.md) | 빠른 MCP tool과 느린 background pipeline을 분리한 결정 | 구조 변경, tool handler 구현 |
 | [docs/eligibility-policy.md](eligibility-policy.md) | 판정 status, evidence, LLM 사용 원칙 | rule engine, extractor, result schema 설계 |
 | [docs/user-language-policy.md](user-language-policy.md) | 사용자-facing 표현과 tool description 문구 원칙 | 응답 문구, tool description 작성 |

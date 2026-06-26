@@ -1,0 +1,56 @@
+# MCP Server
+
+CheongyakCok exposes public tools through a Streamable HTTP MCP endpoint at `/mcp`.
+
+## Local Run
+
+Start the server with the cached MyHome notice file:
+
+```bash
+node scripts/serve-mcp.mjs --host 127.0.0.1 --port 3000 --cachePath data/cache/myhome-notices.json
+```
+
+The process prints one JSON startup line:
+
+```json
+{"event":"mcp_server_listening","host":"127.0.0.1","port":3000,"endpoint":"http://127.0.0.1:3000/mcp","cachePath":"data/cache/myhome-notices.json"}
+```
+
+Use port `0` to let the operating system choose an available local port.
+
+## Smoke Requests
+
+Initialize:
+
+```bash
+curl -sS http://127.0.0.1:3000/mcp \
+  -H "accept: application/json, text/event-stream" \
+  -H "content-type: application/json" \
+  -d '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2025-03-26","capabilities":{},"clientInfo":{"name":"smoke","version":"0.0.0"}}}'
+```
+
+List tools:
+
+```bash
+curl -sS http://127.0.0.1:3000/mcp \
+  -H "accept: application/json, text/event-stream" \
+  -H "content-type: application/json" \
+  -d '{"jsonrpc":"2.0","id":2,"method":"tools/list"}'
+```
+
+Call `search_notices`:
+
+```bash
+curl -sS http://127.0.0.1:3000/mcp \
+  -H "accept: application/json, text/event-stream" \
+  -H "content-type: application/json" \
+  -d '{"jsonrpc":"2.0","id":3,"method":"tools/call","params":{"name":"search_notices","arguments":{"keyword":"공공주택","limit":3}}}'
+```
+
+## Runtime Boundaries
+
+- The public MCP tool reads only the normalized cache.
+- The public MCP tool does not call the live MyHome OpenAPI.
+- The public MCP tool does not crawl sites, parse documents, run LLM extraction, or bulk reindex.
+- Local development binds to `127.0.0.1` by default.
+- Requests with a non-local `Origin` header are rejected unless the server is created with an explicit `allowedOrigins` list.
