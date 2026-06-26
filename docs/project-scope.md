@@ -46,11 +46,20 @@ data.go.kr MyHome OpenAPI
 
 - 로컬 개발자는 `.env.example`을 참고해 `.env`에 `MYHOME_SERVICE_KEY`를 넣는다.
 - 실제 키는 git에 커밋하지 않는다.
-- 공식 API smoke 수집은 다음처럼 실행한다.
+- 공식 API 단일 페이지 smoke 수집은 다음처럼 실행한다.
 
 ```bash
 node scripts/collect-myhome-notices.mjs --noticeType public_rental --pageNo 1 --numOfRows 10
 node scripts/collect-myhome-notices.mjs --noticeType public_sale --pageNo 1 --numOfRows 10
 ```
 
-- collector 출력은 normalized canonical notice이며, public MCP tool은 이 결과가 저장된 cache/DB를 읽는 구조로 이어진다.
+- raw snapshot과 canonical JSON cache를 함께 만들 때는 sync 명령을 사용한다.
+
+```bash
+node scripts/sync-myhome-notice-cache.mjs --pageSize 100
+node scripts/sync-myhome-notice-cache.mjs --pageSize 1 --maxPages 1
+```
+
+- sync 출력은 `data/raw/myhome/<runId>/`와 `data/cache/myhome-notices.json`에 저장된다.
+- `data/`는 git에 커밋하지 않는다.
+- public MCP tool은 이 결과가 저장된 cache/DB를 읽는 구조로 이어진다.
