@@ -47,6 +47,15 @@ curl -sS http://127.0.0.1:3000/mcp \
   -d '{"jsonrpc":"2.0","id":3,"method":"tools/call","params":{"name":"search_notices","arguments":{"keyword":"공공주택","limit":3}}}'
 ```
 
+Call `get_notice_detail` with an id returned by `search_notices`:
+
+```bash
+curl -sS http://127.0.0.1:3000/mcp \
+  -H "accept: application/json, text/event-stream" \
+  -H "content-type: application/json" \
+  -d '{"jsonrpc":"2.0","id":4,"method":"tools/call","params":{"name":"get_notice_detail","arguments":{"id":"myhome:public_rental:example:1"}}}'
+```
+
 ## Runtime Boundaries
 
 - The public MCP tool reads only the normalized cache.

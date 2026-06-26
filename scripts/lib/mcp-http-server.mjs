@@ -1,6 +1,10 @@
 import { createServer } from "node:http";
 
 import {
+  getNoticeDetailToolDefinition,
+  handleGetNoticeDetailTool,
+} from "./get-notice-detail-tool.mjs";
+import {
   handleSearchNoticesTool,
   searchNoticesToolDefinition,
 } from "./search-notices-tool.mjs";
@@ -141,7 +145,7 @@ export async function handleJsonRpcMessage(message, {
       return jsonRpcResult(message.id, {});
     case "tools/list":
       return jsonRpcResult(message.id, {
-        tools: [searchNoticesToolDefinition],
+        tools: [searchNoticesToolDefinition, getNoticeDetailToolDefinition],
       });
     case "tools/call":
       return handleToolCall(message, { cachePath, readCache });
@@ -166,7 +170,7 @@ async function handleToolCall(message, { cachePath, readCache } = {}) {
   const params = message.params ?? {};
   const name = params.name;
 
-  if (name !== "search_notices") {
+  if (!["search_notices", "get_notice_detail"].includes(name)) {
     return jsonRpcError(
       message.id,
       JSON_RPC_ERRORS.INVALID_PARAMS,
@@ -175,10 +179,16 @@ async function handleToolCall(message, { cachePath, readCache } = {}) {
   }
 
   try {
-    const result = await handleSearchNoticesTool(params.arguments ?? {}, {
-      cachePath,
-      readCache,
-    });
+    const result =
+      name === "search_notices"
+        ? await handleSearchNoticesTool(params.arguments ?? {}, {
+            cachePath,
+            readCache,
+          })
+        : await handleGetNoticeDetailTool(params.arguments ?? {}, {
+            cachePath,
+            readCache,
+          });
 
     return jsonRpcResult(message.id, {
       ...result,

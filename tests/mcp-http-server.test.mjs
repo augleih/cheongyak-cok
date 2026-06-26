@@ -64,7 +64,7 @@ test("serves initialize, initialized notification, and tools/list over Streamabl
     assert.equal(list.status, 200);
     assert.deepEqual(
       list.body.result.tools.map((tool) => tool.name),
-      ["search_notices"],
+      ["search_notices", "get_notice_detail"],
     );
     assert.equal(
       list.body.result.tools[0].description.includes("CheongyakCok"),
@@ -112,6 +112,42 @@ test("calls search_notices through tools/call without exposing raw cache fields"
       assert.deepEqual(
         call.body.result.structuredContent.notices.map((notice) => notice.id),
         ["myhome:public_rental:happy-seoul:1"],
+      );
+      assert.equal(JSON.stringify(call.body.result).includes("secret raw payload"), false);
+    });
+  } finally {
+    rmSync(tempDir, { recursive: true, force: true });
+  }
+});
+
+test("calls get_notice_detail through tools/call without exposing raw cache fields", async () => {
+  const tempDir = mkdtempSync(join(tmpdir(), "mcp-http-server-"));
+  const cachePath = join(tempDir, "myhome-notices.json");
+
+  try {
+    writeFileSync(cachePath, JSON.stringify(sampleCache()), "utf8");
+    const server = createMcpHttpServer({ cachePath });
+
+    await withListeningServer(server, async (baseUrl) => {
+      const call = await postMcp(baseUrl, {
+        jsonrpc: "2.0",
+        id: "detail-1",
+        method: "tools/call",
+        params: {
+          name: "get_notice_detail",
+          arguments: {
+            id: "myhome:public_rental:happy-seoul:1",
+          },
+        },
+      });
+
+      assert.equal(call.status, 200);
+      assert.equal(call.body.id, "detail-1");
+      assert.equal(call.body.result.isError, false);
+      assert.equal(call.body.result.structuredContent.found, true);
+      assert.equal(
+        call.body.result.structuredContent.notice.id,
+        "myhome:public_rental:happy-seoul:1",
       );
       assert.equal(JSON.stringify(call.body.result).includes("secret raw payload"), false);
     });
@@ -308,9 +344,18 @@ function sampleCache() {
     notices: [
       {
         id: "myhome:public_rental:happy-seoul:1",
+        sourceNoticeGroupId: "myhome:public_rental:happy-seoul",
         noticeType: "public_rental",
         title: "Seoul Happy Housing",
         provider: { name: "SH" },
+        region: {
+          sidoName: "Seoul",
+          sigunguName: "Gangnam",
+        },
+        categories: {
+          houseType: { name: "Apartment" },
+          supplyType: { name: "Public rental" },
+        },
         dates: {
           noticeDate: "2026-06-25",
           applicationStartDate: "2026-07-07",

@@ -53,6 +53,28 @@
         "openWorldHint": false,
         "idempotentHint": true
       }
+    },
+    {
+      "name": "get_notice_detail",
+      "description": "Get one cached MyHome-listed public housing notice detail for CheongyakCok(청약콕) by canonical notice id. Uses only the pre-collected normalized cache and returns a cautious compact detail.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Canonical notice id returned by search_notices."
+          }
+        }
+      },
+      "annotations": {
+        "title": "Get notice detail",
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "openWorldHint": false,
+        "idempotentHint": true
+      }
     }
   ]
 }
