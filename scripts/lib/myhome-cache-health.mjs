@@ -151,6 +151,7 @@ function validateNotices(notices, errors) {
   notices.forEach((notice, index) => {
     validateNotice(notice, index, errors);
   });
+  validateUniqueNoticeIds(notices, errors);
 }
 
 function validateNotice(notice, index, errors) {
@@ -259,6 +260,29 @@ function validateNoRawNoticeFields(notice, basePath, errors) {
       ));
     }
   }
+}
+
+function validateUniqueNoticeIds(notices, errors) {
+  const seen = new Set();
+
+  notices.forEach((notice, index) => {
+    const id = stringValue(notice?.id);
+
+    if (!id) {
+      return;
+    }
+
+    if (seen.has(id)) {
+      errors.push(error(
+        "cache_duplicate_notice_id",
+        `notices[${index}].id`,
+        "Notice id must be unique within the cache",
+      ));
+      return;
+    }
+
+    seen.add(id);
+  });
 }
 
 function result(summary, errors) {

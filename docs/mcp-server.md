@@ -36,7 +36,7 @@ After running the background MyHome sync, check the cache before pointing the MC
 node scripts/check-myhome-cache.mjs --cachePath data/cache/myhome-notices.json
 ```
 
-The cache health check verifies freshness, source metadata, notice type coverage, canonical notice identity fields, date formats, and absence of raw source payload fields. Use `--maxAgeDays 7` to adjust the freshness threshold.
+The cache health check verifies freshness, source metadata, notice type coverage, canonical notice identity fields, duplicate notice ids, date formats, and absence of raw source payload fields. Use `--maxAgeDays 7` to adjust the freshness threshold.
 
 ## Smoke Script
 

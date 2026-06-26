@@ -86,6 +86,27 @@ test("reports stale and malformed cache problems without raw values", () => {
   assert.equal(JSON.stringify(result).includes("secret raw payload"), false);
 });
 
+test("reports duplicate canonical notice ids", () => {
+  const cache = sampleCache();
+  cache.notices.push({
+    ...cache.notices[0],
+    title: "Same id, different row",
+  });
+
+  const result = validateMyHomeNoticeCache(cache, {
+    now: "2026-06-26T00:00:00.000Z",
+  });
+
+  assert.equal(result.ok, false);
+  assert.deepEqual(result.errors, [
+    {
+      code: "cache_duplicate_notice_id",
+      path: "notices[1].id",
+      message: "Notice id must be unique within the cache",
+    },
+  ]);
+});
+
 test("CLI checks a cache file and prints a compact JSON result", () => {
   const tempDir = mkdtempSync(join(tmpdir(), "myhome-cache-health-"));
   const cachePath = join(tempDir, "myhome-notices.json");

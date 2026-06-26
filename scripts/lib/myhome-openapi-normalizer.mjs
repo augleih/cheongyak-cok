@@ -1,3 +1,5 @@
+import { createHash } from "node:crypto";
+
 const NOTICE_OPERATIONS = {
   public_rental: "rsdtRcritNtcList",
   public_sale: "ltRsdtRcritNtcList",
@@ -20,12 +22,15 @@ export function normalizeMyHomeOpenApiResponse(response, options) {
     throw new Error(`MyHome OpenAPI error ${header.resultCode}: ${header.resultMsg ?? ""}`);
   }
 
-  return readItems(response).map((item) =>
-    normalizeNoticeItem(item, noticeType, operation),
+  const items = readItems(response);
+  const baseIdCounts = countBaseIds(items, noticeType);
+
+  return items.map((item) =>
+    normalizeNoticeItem(item, noticeType, operation, baseIdCounts),
   );
 }
 
-function normalizeNoticeItem(item, noticeType, operation) {
+function normalizeNoticeItem(item, noticeType, operation, baseIdCounts) {
   const sourceNoticeId = stringValue(item?.pblancId);
   const sourceUnitId = stringValue(item?.houseSn);
 
@@ -34,7 +39,9 @@ function normalizeNoticeItem(item, noticeType, operation) {
   }
 
   const sourceNoticeGroupId = `myhome:${noticeType}:${sourceNoticeId}`;
-  const id = sourceUnitId ? `${sourceNoticeGroupId}:${sourceUnitId}` : sourceNoticeGroupId;
+  const baseId = sourceUnitId ? `${sourceNoticeGroupId}:${sourceUnitId}` : sourceNoticeGroupId;
+  const sourceRowHash = baseIdCounts.get(baseId) > 1 ? hashSourceRow(item) : undefined;
+  const id = sourceRowHash ? `${baseId}:row-${sourceRowHash}` : baseId;
 
   return removeUndefined({
     id,
@@ -47,6 +54,7 @@ function normalizeNoticeItem(item, noticeType, operation) {
       operation,
       sourceNoticeId,
       sourceUnitId,
+      sourceRowHash,
     }),
     title: stringValue(item?.pblancNm),
     provider: removeUndefined({
@@ -80,6 +88,45 @@ function normalizeNoticeItem(item, noticeType, operation) {
     }),
     attachments: attachments(item),
   });
+}
+
+function countBaseIds(items, noticeType) {
+  const counts = new Map();
+
+  for (const item of items) {
+    const sourceNoticeId = stringValue(item?.pblancId);
+
+    if (!sourceNoticeId) {
+      continue;
+    }
+
+    const sourceUnitId = stringValue(item?.houseSn);
+    const sourceNoticeGroupId = `myhome:${noticeType}:${sourceNoticeId}`;
+    const baseId = sourceUnitId ? `${sourceNoticeGroupId}:${sourceUnitId}` : sourceNoticeGroupId;
+    counts.set(baseId, (counts.get(baseId) ?? 0) + 1);
+  }
+
+  return counts;
+}
+
+function hashSourceRow(item) {
+  const stableParts = [
+    item?.pblancId,
+    item?.houseSn,
+    item?.brtcCode ?? item?.brtcNm,
+    item?.signguCode ?? item?.signguNm,
+    item?.hsmpNm,
+    item?.fullAdres,
+    item?.rnCodeNm,
+    item?.refrnLegaldongNm,
+    item?.sumSuplyCo,
+    item?.suplyHoCo,
+  ].map((value) => stringValue(value) ?? "");
+
+  return createHash("sha256")
+    .update(JSON.stringify(stableParts))
+    .digest("hex")
+    .slice(0, 12);
 }
 
 function readItems(response) {

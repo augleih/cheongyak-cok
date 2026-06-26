@@ -115,6 +115,49 @@ test("normalizes actual data.go.kr body.item responses", () => {
   );
 });
 
+test("adds stable row suffixes when MyHome repeats pblancId and houseSn", () => {
+  const notices = normalizeMyHomeOpenApiResponse(
+    {
+      response: {
+        header: {
+          resultCode: "00",
+          resultMsg: "NORMAL SERVICE",
+        },
+        body: {
+          item: [
+            {
+              pblancId: "20646",
+              houseSn: 0,
+              pblancNm: "Duplicate houseSn notice",
+              brtcNm: "Incheon",
+              signguNm: "Michuhol",
+              sumSuplyCo: 4,
+            },
+            {
+              pblancId: "20646",
+              houseSn: 0,
+              pblancNm: "Duplicate houseSn notice",
+              brtcNm: "Incheon",
+              signguNm: "Gyeyang",
+              sumSuplyCo: 3,
+            },
+          ],
+        },
+      },
+    },
+    {
+      noticeType: "public_rental",
+    },
+  );
+
+  assert.equal(notices.length, 2);
+  assert.equal(new Set(notices.map((notice) => notice.id)).size, 2);
+  assert.match(notices[0].id, /^myhome:public_rental:20646:0:row-[a-f0-9]{12}$/);
+  assert.match(notices[1].id, /^myhome:public_rental:20646:0:row-[a-f0-9]{12}$/);
+  assert.equal(notices[0].source.sourceRowHash.length, 12);
+  assert.equal(notices[1].source.sourceRowHash.length, 12);
+});
+
 test("treats data.go.kr NODATA_ERROR as an empty result set", () => {
   const notices = normalizeMyHomeOpenApiResponse(
     {

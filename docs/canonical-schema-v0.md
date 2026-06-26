@@ -24,12 +24,14 @@ canonical notice id는 source, notice type, source notice id, source unit id를 
 ```text
 myhome:<noticeType>:<pblancId>
 myhome:<noticeType>:<pblancId>:<houseSn>
+myhome:<noticeType>:<pblancId>:<houseSn>:row-<sourceRowHash>
 ```
 
 - `noticeType`: `public_rental`, `public_sale`처럼 CheongyakCok 내부 notice type.
 - `pblancId`: MyHome OpenAPI의 공고 id.
 - `houseSn`: MyHome OpenAPI에서 같은 `pblancId` 안의 단지/주택 row를 구분하는 값.
 - `houseSn`이 있는 source item은 canonical id에 반드시 포함한다.
+- MyHome은 같은 `pblancId`와 `houseSn`을 지역 단위 row에 반복할 수 있다. 이 경우 region, complex/address, supply count 같은 안정적인 row 식별 필드에서 만든 `row-<sourceRowHash>` suffix를 붙인다.
 - source-level grouping이 필요하면 `sourceNoticeGroupId`로 `myhome:<noticeType>:<pblancId>`를 따로 보관한다.
 
 ## Core Objects
