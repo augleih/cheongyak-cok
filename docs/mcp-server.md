@@ -28,6 +28,12 @@ node scripts/check-playmcp-ready.mjs
 
 The readiness check validates the public tool definitions and runs the local MCP smoke flow.
 
+To include the real MyHome cache health check in the same readiness result, pass the cache path:
+
+```bash
+node scripts/check-playmcp-ready.mjs --cachePath data/cache/myhome-notices.json
+```
+
 ## Cache Health Check
 
 After running the background MyHome sync, check the cache before pointing the MCP server at it:
