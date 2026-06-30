@@ -7,16 +7,16 @@ CheongyakCok exposes public tools through a Streamable HTTP MCP endpoint at `/mc
 Start the server with the cached MyHome notice file:
 
 ```bash
-node scripts/serve-mcp.mjs --host 127.0.0.1 --port 3000 --cachePath data/cache/myhome-notices.json
+node scripts/serve-mcp.mjs --host 127.0.0.1 --port 3100 --cachePath data/cache/myhome-notices.json
 ```
 
 The process prints one JSON startup line:
 
 ```json
-{"event":"mcp_server_listening","host":"127.0.0.1","port":3000,"endpoint":"http://127.0.0.1:3000/mcp","cachePath":"data/cache/myhome-notices.json"}
+{"event":"mcp_server_listening","host":"127.0.0.1","port":3100,"endpoint":"http://127.0.0.1:3100/mcp","cachePath":"data/cache/myhome-notices.json"}
 ```
 
-Use port `0` to let the operating system choose an available local port.
+Use port `auto` or `0` to let the operating system choose an available local port. Copy the printed `endpoint` value into Inspector or PlayMCP.
 
 ## Readiness Check
 
@@ -59,7 +59,7 @@ The script starts the MCP server on an ephemeral local port with a temporary nor
 Initialize:
 
 ```bash
-curl -sS http://127.0.0.1:3000/mcp \
+curl -sS http://127.0.0.1:3100/mcp \
   -H "accept: application/json, text/event-stream" \
   -H "content-type: application/json" \
   -d '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2025-03-26","capabilities":{},"clientInfo":{"name":"smoke","version":"0.0.0"}}}'
@@ -68,7 +68,7 @@ curl -sS http://127.0.0.1:3000/mcp \
 List tools:
 
 ```bash
-curl -sS http://127.0.0.1:3000/mcp \
+curl -sS http://127.0.0.1:3100/mcp \
   -H "accept: application/json, text/event-stream" \
   -H "content-type: application/json" \
   -d '{"jsonrpc":"2.0","id":2,"method":"tools/list"}'
@@ -77,7 +77,7 @@ curl -sS http://127.0.0.1:3000/mcp \
 Call `search_notices`:
 
 ```bash
-curl -sS http://127.0.0.1:3000/mcp \
+curl -sS http://127.0.0.1:3100/mcp \
   -H "accept: application/json, text/event-stream" \
   -H "content-type: application/json" \
   -d '{"jsonrpc":"2.0","id":3,"method":"tools/call","params":{"name":"search_notices","arguments":{"keyword":"공공주택","limit":3}}}'
@@ -86,7 +86,7 @@ curl -sS http://127.0.0.1:3000/mcp \
 Call `get_notice_detail` with an id returned by `search_notices`:
 
 ```bash
-curl -sS http://127.0.0.1:3000/mcp \
+curl -sS http://127.0.0.1:3100/mcp \
   -H "accept: application/json, text/event-stream" \
   -H "content-type: application/json" \
   -d '{"jsonrpc":"2.0","id":4,"method":"tools/call","params":{"name":"get_notice_detail","arguments":{"id":"myhome:public_rental:example:1"}}}'
@@ -95,7 +95,7 @@ curl -sS http://127.0.0.1:3000/mcp \
 Call `evaluate_eligibility` with an id returned by `search_notices`:
 
 ```bash
-curl -sS http://127.0.0.1:3000/mcp \
+curl -sS http://127.0.0.1:3100/mcp \
   -H "accept: application/json, text/event-stream" \
   -H "content-type: application/json" \
   -d '{"jsonrpc":"2.0","id":5,"method":"tools/call","params":{"name":"evaluate_eligibility","arguments":{"noticeId":"myhome:public_rental:example:1","profile":{"household":{"hasNoHome":true}}}}}'

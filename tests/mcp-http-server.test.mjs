@@ -296,6 +296,48 @@ test("CLI starts the MCP HTTP server with a configured cache path", async () => 
   }
 });
 
+test("CLI accepts --port auto and prints the resolved endpoint", async () => {
+  const tempDir = mkdtempSync(join(tmpdir(), "mcp-http-cli-"));
+  const cachePath = join(tempDir, "myhome-notices.json");
+  let child;
+
+  try {
+    writeFileSync(cachePath, JSON.stringify(sampleCache()), "utf8");
+    child = spawn(
+      process.execPath,
+      [
+        "scripts/serve-mcp.mjs",
+        "--host",
+        "127.0.0.1",
+        "--port",
+        "auto",
+        "--cachePath",
+        cachePath,
+      ],
+      {
+        cwd: process.cwd(),
+        encoding: "utf8",
+        stdio: ["ignore", "pipe", "pipe"],
+        windowsHide: true,
+      },
+    );
+
+    const startup = await readStartupLine(child);
+    assert.equal(startup.event, "mcp_server_listening");
+    assert.equal(startup.host, "127.0.0.1");
+    assert.equal(typeof startup.port, "number");
+    assert.notEqual(startup.port, 0);
+    assert.equal(startup.endpoint, `http://127.0.0.1:${startup.port}/mcp`);
+  } finally {
+    if (child && child.exitCode === null && !child.killed) {
+      child.kill();
+      await waitForExit(child);
+    }
+
+    rmSync(tempDir, { recursive: true, force: true });
+  }
+});
+
 async function withListeningServer(server, callback) {
   await new Promise((resolve) => {
     server.listen(0, "127.0.0.1", resolve);

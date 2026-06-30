@@ -2,9 +2,10 @@
 
 import { createMcpHttpServer } from "./lib/mcp-http-server.mjs";
 
+const DEFAULT_PORT = "3100";
 const args = parseArgs(process.argv.slice(2));
 const host = args.host ?? process.env.HOST ?? "127.0.0.1";
-const port = parsePort(args.port ?? process.env.PORT ?? "3000");
+const port = parsePort(args.port ?? process.env.PORT ?? DEFAULT_PORT);
 const cachePath = args.cachePath;
 const server = createMcpHttpServer({ cachePath });
 
@@ -59,10 +60,14 @@ function parseArgs(argv) {
 }
 
 function parsePort(value) {
+  if (String(value).trim().toLowerCase() === "auto") {
+    return 0;
+  }
+
   const parsed = Number(value);
 
   if (!Number.isInteger(parsed) || parsed < 0 || parsed > 65535) {
-    throw new Error("--port must be an integer from 0 to 65535");
+    throw new Error("--port must be an integer from 0 to 65535, or auto");
   }
 
   return parsed;
